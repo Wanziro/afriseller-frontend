@@ -1,11 +1,15 @@
-import React, { Component, Suspense } from "react";
+import React, { Component, lazy, Suspense } from "react";
 import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
+import { APP_COLORS } from "./constants/colors";
 import "./scss/style.scss";
-import Home from "./views/home";
+const Home = lazy(() => import("./views/home"));
 
 const loading = (
   <div className="pt-3 text-center">
-    <div className="sk-spinner sk-spinner-pulse"></div>
+    <div
+      className="sk-spinner sk-spinner-pulse"
+      color={APP_COLORS.DARK_GREEN}
+    ></div>
   </div>
 );
 
@@ -35,6 +39,15 @@ class App extends Component {
       <>
         <BrowserRouter>
           <Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                <Suspense fallback={loading}>
+                  <Home />
+                </Suspense>
+              }
+            />
             <Route exact path="/login" element={<Login />} />
             <Route
               exact
