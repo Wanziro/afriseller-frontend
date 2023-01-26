@@ -55,9 +55,8 @@ class App extends Component {
               name="Register Page"
               element={<Register />}
             />
-            <Route exact path="/404" element={<Page404 />} />
-            <Route exact path="/500" element={<Page500 />} />
             <Route exact path="/home" element={<Home />} />
+            <Route exact path="/404" element={<Page404 />} />
             <Route path="*" element={<DefaultLayout />} />
           </Routes>
         </BrowserRouter>

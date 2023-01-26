@@ -1,7 +1,9 @@
 import { Container } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+  const navigate = useNavigate();
   return (
     <div className="app-header">
       <Container>
@@ -16,9 +18,9 @@ function Header() {
               <li>Pricing</li>
               <li>About</li>
               <li>Contact us</li>
-              <li>Login</li>
+              <li onClick={() => navigate("/login")}>Login</li>
               <li>
-                <button>Get Started</button>
+                <button onClick={() => navigate("/login")}>Get Started</button>
               </li>
             </ul>
           </div>

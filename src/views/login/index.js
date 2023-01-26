@@ -1,5 +1,8 @@
+import { cilHome } from "@coreui/icons";
+import CIcon from "@coreui/icons-react";
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { APP_COLORS } from "src/constants/colors";
 import "../../scss/login.scss";
 
 function Login() {
@@ -81,6 +84,11 @@ function Login() {
           <div className="form-footer2">
             <span>New?</span>
             <Link to="/register">CREATE ACCOUNT</Link>
+          </div>
+          <div className="text-center mt-2">
+            <Link to="/" style={{ color: APP_COLORS.DARK_GREEN }}>
+              <CIcon icon={cilHome} /> Home
+            </Link>
           </div>
         </div>
       </div>
