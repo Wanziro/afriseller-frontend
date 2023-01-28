@@ -1,0 +1,52 @@
+@import "mixins";
+@import "colors";
+
+.cmpHeader {
+  background: $DARK_GREEN;
+  padding: 10px 0px;
+  color: $WHITE;
+  .header-contents {
+    @include flexSpace;
+    .logo-container {
+      @include flexCenter;
+      h1 {
+        font-size: 25px;
+        font-weight: 700;
+        margin: 0;
+        padding: 0;
+      }
+      img {
+        width: 40px;
+      }
+    }
+    .header-menu {
+      ul {
+        margin: 0;
+        padding: 0;
+        li {
+          cursor: pointer;
+          list-style: none;
+          padding-left: 1.5rem;
+          text-transform: uppercase;
+          display: inline-block;
+          &:hover {
+            color: $GOLD;
+          }
+          button {
+            border: none;
+            border: 1px solid $WHITE;
+            padding: 3px 15px;
+            border-radius: 20px;
+            background: transparent;
+            text-transform: uppercase;
+            color: $WHITE;
+            &:hover {
+              color: $GOLD;
+              border: 1px solid $GOLD;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -3,6 +3,7 @@ import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 import { APP_COLORS } from "./constants/colors";
 import "./scss/style.scss";
 const Home = lazy(() => import("./views/home"));
+const Company = lazy(() => import("./views/company"));
 
 const loading = (
   <div className="pt-3 text-center">
@@ -34,6 +35,15 @@ class App extends Component {
               element={
                 <Suspense fallback={loading}>
                   <Home />
+                </Suspense>
+              }
+            />
+            <Route
+              exact
+              path="/company"
+              element={
+                <Suspense fallback={loading}>
+                  <Company />
                 </Suspense>
               }
             />

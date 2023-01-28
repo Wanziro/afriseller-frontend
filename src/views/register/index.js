@@ -40,6 +40,11 @@ function Register() {
               <p className="text-white text-center">
                 Create a free user account to get started with our services
               </p>
+              <img
+                src={require("../../assets/get-started.png")}
+                alt=""
+                style={{ width: "100%", borderRadius: 10 }}
+              />
             </div>
           </CCol>
           <CCol md={6} className="form-main-container shadow">
