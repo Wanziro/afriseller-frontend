@@ -20,7 +20,9 @@ function Header() {
               <li>Contact us</li>
               <li onClick={() => navigate("/login")}>Login</li>
               <li>
-                <button onClick={() => navigate("/login")}>Get Started</button>
+                <button onClick={() => navigate("/register")}>
+                  Get Started
+                </button>
               </li>
             </ul>
           </div>
