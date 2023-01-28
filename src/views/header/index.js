@@ -12,7 +12,7 @@ function Header() {
     <div className="cmpHeader">
       <CContainer>
         <div className="header-contents">
-          <div className="logo-container">
+          <div className="logo-container" onClick={() => navigate("/")}>
             <img src={require("../../assets/logo.png")} />
             <h1>Afriseller</h1>
           </div>

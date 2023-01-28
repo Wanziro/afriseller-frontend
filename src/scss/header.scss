@@ -9,6 +9,7 @@
     @include flexSpace;
     .logo-container {
       @include flexCenter;
+      cursor: pointer;
       h1 {
         font-size: 25px;
         font-weight: 700;
