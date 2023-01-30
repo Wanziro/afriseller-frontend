@@ -5,6 +5,7 @@ import {
   SET_USER_ROLE,
   SET_USER_TOKEN,
   SET_USER_ID,
+  SET_USER_HAS_A_COMPANY,
   RESET_USER,
 } from "../actions/user";
 
@@ -15,6 +16,7 @@ const initialState = {
   email: "",
   role: "",
   token: "",
+  hasACompany: false,
 };
 
 const user = (state = initialState, action) => {
@@ -31,6 +33,8 @@ const user = (state = initialState, action) => {
       return { ...state, role: action.payload };
     case SET_USER_TOKEN:
       return { ...state, token: action.payload };
+    case SET_USER_HAS_A_COMPANY:
+      return { ...state, hasACompany: action.payload };
     case RESET_USER:
       return initialState;
     default:

@@ -1,24 +1,35 @@
 import { cilHome } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
-import { CCol, CRow } from "@coreui/react";
+import { CCol, CRow, CSpinner } from "@coreui/react";
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { APP_COLORS } from "src/constants/colors";
+import { toastMessage } from "src/helpers";
 import "../../scss/register.scss";
 
+const initialState = {
+  names: "",
+  email: "",
+  phone: "",
+  password: "",
+  passwordConfirm: "",
+};
 function Register() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailErrorMessage, setEmailErrorMessage] = useState("");
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
-  const [submissionError, setSubmissionError] = useState("");
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
+  const [state, setState] = useState(initialState);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const changeHandler = (e) => {
+    setState({ ...state, [e.target.name]: [e.target.value] });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (state.password.length < 4) {
+      toastMessage("error", "Password minimun characters must be 4.");
+    } else if (state.password !== state.passwordConfirm) {
+      toastMessage("error", "Passwords do not match.");
+    }
   };
 
   return (
@@ -49,7 +60,7 @@ function Register() {
           </CCol>
           <CCol md={6} className="form-main-container shadow">
             <h3>Sign up</h3>
-            <form method="post" onSubmit={(e) => handleSubmit(e)}>
+            <form onSubmit={(e) => handleSubmit(e)}>
               <div className="form-group">
                 <label>Names</label>
                 <input
@@ -58,8 +69,9 @@ function Register() {
                   disabled={isSubmitting}
                   type="text"
                   name="names"
+                  value={state.names}
                   required
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => changeHandler(e)}
                 />
               </div>
               <div className="form-group">
@@ -70,10 +82,9 @@ function Register() {
                   disabled={isSubmitting}
                   type="email"
                   name="email"
-                  ref={emailRef}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={state.email}
+                  onChange={(e) => changeHandler(e)}
                 />
-                <span className="error">{emailErrorMessage}</span>
               </div>
               <div className="form-group">
                 <label>Phone Number</label>
@@ -83,9 +94,9 @@ function Register() {
                   disabled={isSubmitting}
                   type="text"
                   name="phone"
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={state.phone}
+                  onChange={(e) => changeHandler(e)}
                 />
-                <span className="error">{emailErrorMessage}</span>
               </div>
               <div className="form-group">
                 <label>Password</label>
@@ -93,12 +104,11 @@ function Register() {
                   type="password"
                   className="form-control"
                   placeholder="Enter your password"
-                  value={password}
-                  ref={passwordRef}
+                  value={state.password}
                   disabled={isSubmitting}
-                  onChange={(e) => setPassword(e.target.value)}
+                  name="password"
+                  onChange={(e) => changeHandler(e)}
                 />
-                <span className="error">{passwordErrorMessage}</span>
               </div>
               <div className="form-group">
                 <label>Confirm Password</label>
@@ -106,15 +116,15 @@ function Register() {
                   type="password"
                   className="form-control"
                   placeholder="Enter your password"
-                  value={password}
+                  value={state.passwordConfirm}
                   disabled={isSubmitting}
-                  onChange={(e) => setPassword(e.target.value)}
+                  name="passwordConfirm"
+                  onChange={(e) => changeHandler(e)}
                 />
-                <span className="error">{passwordErrorMessage}</span>
               </div>
               {isSubmitting ? (
                 <button type="button" disabled={true}>
-                  <div className="sk-spinner sk-spinner-pulse"></div>
+                  <CSpinner size="sm" />
                   &nbsp; Sign up...
                 </button>
               ) : (

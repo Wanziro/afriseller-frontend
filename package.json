@@ -26,6 +26,7 @@
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.11.6",
     "@mui/styles": "^5.11.2",
+    "axios": "^1.2.6",
     "chart.js": "^3.9.1",
     "classnames": "^2.3.1",
     "core-js": "^3.24.1",
