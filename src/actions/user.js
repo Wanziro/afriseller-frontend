@@ -35,7 +35,7 @@ export const setUserRole = (role) => (dispatch) => {
   });
 };
 
-export const seUserHasACompany = (trueOrFalse) => (dispatch) => {
+export const setUserHasACompany = (trueOrFalse) => (dispatch) => {
   dispatch({
     type: SET_USER_HAS_A_COMPANY,
     payload: trueOrFalse,

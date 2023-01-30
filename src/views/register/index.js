@@ -1,10 +1,22 @@
 import { cilHome } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
 import { CCol, CRow, CSpinner } from "@coreui/react";
+import axios from "axios";
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  setUserEmail,
+  setUserHasACompany,
+  setUserId,
+  setUserNames,
+  setUserPhone,
+  setUserRole,
+  setUserToken,
+} from "src/actions/user";
+import { BACKEND_URL } from "src/constants/app";
 import { APP_COLORS } from "src/constants/colors";
-import { toastMessage } from "src/helpers";
+import { errorHandler, toastMessage } from "src/helpers";
 import "../../scss/register.scss";
 
 const initialState = {
@@ -15,8 +27,9 @@ const initialState = {
   passwordConfirm: "",
 };
 function Register() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [state, setState] = useState(initialState);
-
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const changeHandler = (e) => {
@@ -29,6 +42,29 @@ function Register() {
       toastMessage("error", "Password minimun characters must be 4.");
     } else if (state.password !== state.passwordConfirm) {
       toastMessage("error", "Passwords do not match.");
+    } else {
+      setIsSubmitting(true);
+      axios
+        .post(BACKEND_URL + "/user/register/", state)
+        .then((res) => {
+          setIsSubmitting(false);
+          const { userId, email, role, phone, hasACompany, names, token } =
+            res.data;
+          dispatch(setUserId(userId));
+          dispatch(setUserEmail(email));
+          dispatch(setUserRole(role));
+          dispatch(setUserPhone(phone));
+          dispatch(setUserHasACompany(hasACompany));
+          dispatch(setUserNames(names));
+          dispatch(setUserToken(token));
+          toastMessage("success", "User account created successfull");
+          navigate("/");
+        })
+        .catch((error) => {
+          setState({ ...state, password: "", passwordConfirm: "" });
+          setIsSubmitting(false);
+          errorHandler(error);
+        });
     }
   };
 
