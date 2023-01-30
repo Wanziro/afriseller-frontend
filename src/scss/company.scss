@@ -1,6 +1,11 @@
 @import "mixins";
 @import "colors";
 
+.cmpMainContainer {
+  background-color: $BG_GRAY;
+  min-height: 100vh;
+}
+
 .bannerContainer {
   height: 40vh;
   background-size: 100%;
@@ -61,4 +66,51 @@
       }
     }
   }
+}
+
+.tabsContainer {
+  background-color: $white;
+  border-radius: 10px;
+  margin-top: 1rem;
+  ul {
+    margin: 0;
+    padding: 0;
+    @include flexSpace;
+    li {
+      display: inline-block;
+      list-style: none;
+      padding: 1rem;
+      border-bottom: 3px solid $BORDER_COLOR;
+      width: 100%;
+      text-align: center;
+      font-weight: 700;
+      color: $TEXT_GRAY1;
+      &:first-child {
+        border-bottom-left-radius: 10px;
+        border-right: 1px solid $BORDER_COLOR;
+      }
+      &:last-child {
+        border-bottom-right-radius: 10px;
+        border-left: 1px solid $BORDER_COLOR;
+      }
+      &:hover {
+        // color: $black;
+        color: $DARK_GREEN;
+        border-bottom: 3px solid $DARK_GREEN;
+        cursor: pointer;
+      }
+    }
+    .active {
+      color: $DARK_GREEN;
+      border-bottom: 3px solid $DARK_GREEN;
+      cursor: pointer;
+    }
+  }
+}
+
+.companyContentsCard {
+  background-color: $white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
 }
