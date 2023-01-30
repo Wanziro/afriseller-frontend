@@ -5,6 +5,7 @@ import { APP_COLORS } from "./constants/colors";
 import "./scss/style.scss";
 import UnProtectedRoute from "./controllers/un-protected-route";
 import ProtectedRoute from "./controllers/protected-route";
+import Logout from "./views/logout";
 const Home = lazy(() => import("./views/home"));
 const Company = lazy(() => import("./views/company"));
 
@@ -50,6 +51,7 @@ class App extends Component {
                 </Suspense>
               }
             />
+            <Route exact path="/logout" element={<Logout />} />
             <Route
               exact
               path="/login"
