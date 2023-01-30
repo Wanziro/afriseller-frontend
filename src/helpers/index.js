@@ -22,29 +22,6 @@ export const randomNumber = () => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-export const uploadImage = (file) => {
-  console.log(file);
-  return new Promise((resolve, reject) => {
-    let formData = new FormData();
-    formData.append("file", file, file.name);
-    Axios.post(
-      "https://lawyersofhope.org.rw/assets/images/controller/upload.php",
-      formData
-    )
-      .then((res) => {
-        console.log(res.data);
-        if (res.data.type == "success") {
-          resolve({ data: { fileName: res.data.fileName } });
-        } else {
-          reject(res.data.msg);
-        }
-      })
-      .catch((error) => {
-        reject(error.message);
-      });
-  });
-};
-
 export const toastMessage = (type, message) => {
   if (type == "info") {
     toast.info(message);
