@@ -1,9 +1,11 @@
 import { Container } from "@mui/material";
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function Header() {
   const navigate = useNavigate();
+  const { token, hasACompany } = useSelector((state) => state.user);
   return (
     <div className="app-header">
       <Container>
@@ -18,12 +20,24 @@ function Header() {
               <li>Pricing</li>
               <li>About</li>
               <li>Contact us</li>
-              <li onClick={() => navigate("/login")}>Login</li>
-              <li>
-                <button onClick={() => navigate("/register")}>
-                  Get Started
-                </button>
-              </li>
+              {token.trim() === "" ? (
+                <>
+                  <li onClick={() => navigate("/login")}>Login</li>
+                  <li>
+                    <button onClick={() => navigate("/register")}>
+                      Get Started
+                    </button>
+                  </li>
+                </>
+              ) : hasACompany ? (
+                <li onClick={() => navigate("/dashboard")}>Register Company</li>
+              ) : (
+                <li>
+                  <button onClick={() => navigate("/register")}>
+                    Register Company
+                  </button>
+                </li>
+              )}
             </ul>
           </div>
         </div>
