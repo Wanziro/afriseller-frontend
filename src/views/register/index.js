@@ -33,11 +33,12 @@ function Register() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const changeHandler = (e) => {
-    setState({ ...state, [e.target.name]: [e.target.value] });
+    setState({ ...state, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(state);
     if (state.password.length < 4) {
       toastMessage("error", "Password minimun characters must be 4.");
     } else if (state.password !== state.passwordConfirm) {
@@ -45,7 +46,7 @@ function Register() {
     } else {
       setIsSubmitting(true);
       axios
-        .post(BACKEND_URL + "/user/register/", state)
+        .post(BACKEND_URL + "/users/register/", state)
         .then((res) => {
           setIsSubmitting(false);
           const { userId, email, role, phone, hasACompany, names, token } =
@@ -96,7 +97,7 @@ function Register() {
           </CCol>
           <CCol md={6} className="form-main-container shadow">
             <h3>Sign up</h3>
-            <form onSubmit={(e) => handleSubmit(e)}>
+            <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Names</label>
                 <input
@@ -120,6 +121,7 @@ function Register() {
                   name="email"
                   value={state.email}
                   onChange={(e) => changeHandler(e)}
+                  required
                 />
               </div>
               <div className="form-group">
@@ -132,6 +134,7 @@ function Register() {
                   name="phone"
                   value={state.phone}
                   onChange={(e) => changeHandler(e)}
+                  required
                 />
               </div>
               <div className="form-group">
@@ -144,6 +147,7 @@ function Register() {
                   disabled={isSubmitting}
                   name="password"
                   onChange={(e) => changeHandler(e)}
+                  required
                 />
               </div>
               <div className="form-group">
@@ -156,6 +160,7 @@ function Register() {
                   disabled={isSubmitting}
                   name="passwordConfirm"
                   onChange={(e) => changeHandler(e)}
+                  required
                 />
               </div>
               {isSubmitting ? (

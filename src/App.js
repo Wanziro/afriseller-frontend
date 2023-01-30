@@ -1,5 +1,6 @@
 import React, { Component, lazy, Suspense } from "react";
 import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import { APP_COLORS } from "./constants/colors";
 import "./scss/style.scss";
 const Home = lazy(() => import("./views/home"));
@@ -84,6 +85,7 @@ class App extends Component {
             />
           </Routes>
         </BrowserRouter>
+        <ToastContainer />
       </>
     );
   }
