@@ -3,6 +3,8 @@ import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { APP_COLORS } from "./constants/colors";
 import "./scss/style.scss";
+import UnProtectedRoute from "./controllers/un-protected-route";
+import ProtectedRoute from "./controllers/protected-route";
 const Home = lazy(() => import("./views/home"));
 const Company = lazy(() => import("./views/company"));
 
@@ -52,18 +54,22 @@ class App extends Component {
               exact
               path="/login"
               element={
-                <Suspense fallback={loading}>
-                  <Login />
-                </Suspense>
+                <UnProtectedRoute>
+                  <Suspense fallback={loading}>
+                    <Login />
+                  </Suspense>
+                </UnProtectedRoute>
               }
             />
             <Route
               exact
               path="/register"
               element={
-                <Suspense fallback={loading}>
-                  <Register />
-                </Suspense>
+                <UnProtectedRoute>
+                  <Suspense fallback={loading}>
+                    <Register />
+                  </Suspense>
+                </UnProtectedRoute>
               }
             />
             <Route
