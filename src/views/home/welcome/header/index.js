@@ -30,10 +30,10 @@ function Header() {
                   </li>
                 </>
               ) : hasACompany ? (
-                <li onClick={() => navigate("/dashboard")}>Register Company</li>
+                <li onClick={() => navigate("/dashboard")}>Dashboard</li>
               ) : (
                 <li>
-                  <button onClick={() => navigate("/register")}>
+                  <button onClick={() => navigate("/registercompany")}>
                     Register Company
                   </button>
                 </li>

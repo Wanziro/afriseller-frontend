@@ -8,6 +8,7 @@ import ProtectedRoute from "./controllers/protected-route";
 import Logout from "./views/logout";
 const Home = lazy(() => import("./views/home"));
 const Company = lazy(() => import("./views/company"));
+const RegisterCompany = lazy(() => import("./views/register-company"));
 
 const loading = (
   <div className="pt-3 text-center">
@@ -72,6 +73,17 @@ class App extends Component {
                     <Register />
                   </Suspense>
                 </UnProtectedRoute>
+              }
+            />
+            <Route
+              exact
+              path="/registercompany"
+              element={
+                <ProtectedRoute>
+                  <Suspense fallback={loading}>
+                    <RegisterCompany />
+                  </Suspense>
+                </ProtectedRoute>
               }
             />
             <Route
