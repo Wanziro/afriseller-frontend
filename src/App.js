@@ -1,4 +1,4 @@
-import React, { Component, lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { APP_COLORS } from "./constants/colors";
@@ -6,6 +6,8 @@ import "./scss/style.scss";
 import UnProtectedRoute from "./controllers/un-protected-route";
 import ProtectedRoute from "./controllers/protected-route";
 import Logout from "./views/logout";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMyCompany } from "./actions/myCompany";
 const Home = lazy(() => import("./views/home"));
 const Company = lazy(() => import("./views/company"));
 const RegisterCompany = lazy(() => import("./views/register-company"));
@@ -28,87 +30,92 @@ const Register = React.lazy(() => import("./views/register"));
 const Page404 = React.lazy(() => import("./views/pages/page404/Page404"));
 const Page500 = React.lazy(() => import("./views/pages/page500/Page500"));
 
-class App extends Component {
-  render() {
-    return (
-      <>
-        <BrowserRouter>
-          <Routes>
-            <Route
-              exact
-              path="/"
-              element={
+const App = () => {
+  const dispatch = useDispatch();
+  const { hasACompany } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (hasACompany) {
+      dispatch(fetchMyCompany());
+    }
+  }, [hasACompany]);
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={
+              <Suspense fallback={loading}>
+                <Home />
+              </Suspense>
+            }
+          />
+          <Route
+            exact
+            path="/company"
+            element={
+              <Suspense fallback={loading}>
+                <Company />
+              </Suspense>
+            }
+          />
+          <Route exact path="/logout" element={<Logout />} />
+          <Route
+            exact
+            path="/login"
+            element={
+              <UnProtectedRoute>
                 <Suspense fallback={loading}>
-                  <Home />
+                  <Login />
                 </Suspense>
-              }
-            />
-            <Route
-              exact
-              path="/company"
-              element={
+              </UnProtectedRoute>
+            }
+          />
+          <Route
+            exact
+            path="/register"
+            element={
+              <UnProtectedRoute>
                 <Suspense fallback={loading}>
-                  <Company />
+                  <Register />
                 </Suspense>
-              }
-            />
-            <Route exact path="/logout" element={<Logout />} />
-            <Route
-              exact
-              path="/login"
-              element={
-                <UnProtectedRoute>
-                  <Suspense fallback={loading}>
-                    <Login />
-                  </Suspense>
-                </UnProtectedRoute>
-              }
-            />
-            <Route
-              exact
-              path="/register"
-              element={
-                <UnProtectedRoute>
-                  <Suspense fallback={loading}>
-                    <Register />
-                  </Suspense>
-                </UnProtectedRoute>
-              }
-            />
-            <Route
-              exact
-              path="/registercompany"
-              element={
-                <ProtectedRoute>
-                  <Suspense fallback={loading}>
-                    <RegisterCompany />
-                  </Suspense>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              exact
-              path="/404"
-              element={
+              </UnProtectedRoute>
+            }
+          />
+          <Route
+            exact
+            path="/registercompany"
+            element={
+              <ProtectedRoute>
                 <Suspense fallback={loading}>
-                  <Page404 />
+                  <RegisterCompany />
                 </Suspense>
-              }
-            />
-            <Route
-              path="*"
-              element={
-                <Suspense fallback={loading}>
-                  <DefaultLayout />
-                </Suspense>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-        <ToastContainer />
-      </>
-    );
-  }
-}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            exact
+            path="/404"
+            element={
+              <Suspense fallback={loading}>
+                <Page404 />
+              </Suspense>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <Suspense fallback={loading}>
+                <DefaultLayout />
+              </Suspense>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+      <ToastContainer />
+    </>
+  );
+};
 
 export default App;

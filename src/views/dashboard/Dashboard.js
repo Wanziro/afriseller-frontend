@@ -53,8 +53,11 @@ import avatar6 from "src/assets/images/avatars/6.jpg";
 
 import WidgetsBrand from "../widgets/WidgetsBrand";
 import WidgetsDropdown from "../widgets/WidgetsDropdown";
+import { useSelector } from "react-redux";
+import RowsPlaceHolder from "src/components/placeholders/rows";
 
 const Dashboard = () => {
+  const { isLoading, company } = useSelector((state) => state.myCompany);
   const random = (min, max) =>
     Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -191,130 +194,138 @@ const Dashboard = () => {
 
   return (
     <>
-      <WidgetsDropdown />
-      <CCard className="mb-4">
-        <CCardBody>
-          <CRow>
-            <CCol sm={5}>
-              <h4 id="traffic" className="card-title mb-0">
-                Traffic
-              </h4>
-              <div className="small text-medium-emphasis">
-                January - July 2021
-              </div>
-            </CCol>
-            <CCol sm={7} className="d-none d-md-block">
-              <CButton color="primary" className="float-end">
-                <CIcon icon={cilCloudDownload} />
-              </CButton>
-              <CButtonGroup className="float-end me-3">
-                {["Day", "Month", "Year"].map((value) => (
-                  <CButton
-                    color="outline-secondary"
-                    key={value}
-                    className="mx-0"
-                    active={value === "Month"}
-                  >
-                    {value}
+      {isLoading ? (
+        <>
+          <RowsPlaceHolder />
+          <RowsPlaceHolder />
+          <RowsPlaceHolder />
+        </>
+      ) : (
+        <>
+          <WidgetsDropdown />
+          <CCard className="mb-4">
+            <CCardBody>
+              <CRow>
+                <CCol sm={5}>
+                  <h4 id="traffic" className="card-title mb-0">
+                    Traffic
+                  </h4>
+                  <div className="small text-medium-emphasis">
+                    January - July 2021
+                  </div>
+                </CCol>
+                <CCol sm={7} className="d-none d-md-block">
+                  <CButton color="primary" className="float-end">
+                    <CIcon icon={cilCloudDownload} />
                   </CButton>
-                ))}
-              </CButtonGroup>
-            </CCol>
-          </CRow>
-          <CChartLine
-            style={{ height: "300px", marginTop: "40px" }}
-            data={{
-              labels: [
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-              ],
-              datasets: [
-                {
-                  label: "My First dataset",
-                  backgroundColor: hexToRgba(getStyle("--cui-info"), 10),
-                  borderColor: getStyle("--cui-info"),
-                  pointHoverBackgroundColor: getStyle("--cui-info"),
-                  borderWidth: 2,
-                  data: [
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
+                  <CButtonGroup className="float-end me-3">
+                    {["Day", "Month", "Year"].map((value) => (
+                      <CButton
+                        color="outline-secondary"
+                        key={value}
+                        className="mx-0"
+                        active={value === "Month"}
+                      >
+                        {value}
+                      </CButton>
+                    ))}
+                  </CButtonGroup>
+                </CCol>
+              </CRow>
+              <CChartLine
+                style={{ height: "300px", marginTop: "40px" }}
+                data={{
+                  labels: [
+                    "January",
+                    "February",
+                    "March",
+                    "April",
+                    "May",
+                    "June",
+                    "July",
                   ],
-                  fill: true,
-                },
-                {
-                  label: "My Second dataset",
-                  backgroundColor: "transparent",
-                  borderColor: getStyle("--cui-success"),
-                  pointHoverBackgroundColor: getStyle("--cui-success"),
-                  borderWidth: 2,
-                  data: [
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
-                    random(50, 200),
+                  datasets: [
+                    {
+                      label: "My First dataset",
+                      backgroundColor: hexToRgba(getStyle("--cui-info"), 10),
+                      borderColor: getStyle("--cui-info"),
+                      pointHoverBackgroundColor: getStyle("--cui-info"),
+                      borderWidth: 2,
+                      data: [
+                        random(50, 200),
+                        random(50, 200),
+                        random(50, 200),
+                        random(50, 200),
+                        random(50, 200),
+                        random(50, 200),
+                        random(50, 200),
+                      ],
+                      fill: true,
+                    },
+                    {
+                      label: "My Second dataset",
+                      backgroundColor: "transparent",
+                      borderColor: getStyle("--cui-success"),
+                      pointHoverBackgroundColor: getStyle("--cui-success"),
+                      borderWidth: 2,
+                      data: [
+                        random(50, 200),
+                        random(50, 200),
+                        random(50, 200),
+                        random(50, 200),
+                        random(50, 200),
+                        random(50, 200),
+                        random(50, 200),
+                      ],
+                    },
+                    {
+                      label: "My Third dataset",
+                      backgroundColor: "transparent",
+                      borderColor: getStyle("--cui-danger"),
+                      pointHoverBackgroundColor: getStyle("--cui-danger"),
+                      borderWidth: 1,
+                      borderDash: [8, 5],
+                      data: [65, 65, 65, 65, 65, 65, 65],
+                    },
                   ],
-                },
-                {
-                  label: "My Third dataset",
-                  backgroundColor: "transparent",
-                  borderColor: getStyle("--cui-danger"),
-                  pointHoverBackgroundColor: getStyle("--cui-danger"),
-                  borderWidth: 1,
-                  borderDash: [8, 5],
-                  data: [65, 65, 65, 65, 65, 65, 65],
-                },
-              ],
-            }}
-            options={{
-              maintainAspectRatio: false,
-              plugins: {
-                legend: {
-                  display: false,
-                },
-              },
-              scales: {
-                x: {
-                  grid: {
-                    drawOnChartArea: false,
+                }}
+                options={{
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      display: false,
+                    },
                   },
-                },
-                y: {
-                  ticks: {
-                    beginAtZero: true,
-                    maxTicksLimit: 5,
-                    stepSize: Math.ceil(250 / 5),
-                    max: 250,
+                  scales: {
+                    x: {
+                      grid: {
+                        drawOnChartArea: false,
+                      },
+                    },
+                    y: {
+                      ticks: {
+                        beginAtZero: true,
+                        maxTicksLimit: 5,
+                        stepSize: Math.ceil(250 / 5),
+                        max: 250,
+                      },
+                    },
                   },
-                },
-              },
-              elements: {
-                line: {
-                  tension: 0.4,
-                },
-                point: {
-                  radius: 0,
-                  hitRadius: 10,
-                  hoverRadius: 4,
-                  hoverBorderWidth: 3,
-                },
-              },
-            }}
-          />
-        </CCardBody>
-        {/* <CCardFooter>
+                  elements: {
+                    line: {
+                      tension: 0.4,
+                    },
+                    point: {
+                      radius: 0,
+                      hitRadius: 10,
+                      hoverRadius: 4,
+                      hoverBorderWidth: 3,
+                    },
+                  },
+                }}
+              />
+            </CCardBody>
+            {/* <CCardFooter>
           <CRow xs={{ cols: 1 }} md={{ cols: 5 }} className="text-center">
             {progressExample.map((item, index) => (
               <CCol className="mb-sm-2 mb-0" key={index}>
@@ -332,9 +343,11 @@ const Dashboard = () => {
             ))}
           </CRow>
         </CCardFooter> */}
-      </CCard>
+          </CCard>
 
-      {/* <WidgetsBrand withCharts /> */}
+          {/* <WidgetsBrand withCharts /> */}
+        </>
+      )}
     </>
   );
 };

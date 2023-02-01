@@ -1,6 +1,7 @@
 import React from "react";
 import CIcon from "@coreui/icons-react";
 import {
+  cilAppsSettings,
   cilBell,
   cilGraph,
   cilNewspaper,
@@ -19,51 +20,49 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: "Announcements",
-    to: "/notifications",
+    name: "Our Services",
+    to: "/dashboard/services",
+    icon: <CIcon icon={cilAppsSettings} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: "Subscriptions",
+    to: "/dashboard/subscriptions",
     icon: <CIcon icon={cilBell} customClassName="nav-icon" />,
   },
   {
     component: CNavGroup,
-    name: "Cows",
-    to: "/cows",
+    name: "Quizes",
+    to: "/dashboard/quizes",
     icon: <CIcon icon={cilNewspaper} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: "Cow list",
-        to: "/cowslist",
+        name: "All Quizes",
+        to: "/dashboard/quizes",
       },
       {
         component: CNavItem,
-        name: "Register New",
-        to: "/registercow",
+        name: "Question Banks(QB)",
+        to: "/dashboard/questionbanks",
       },
-    ],
-  },
-  {
-    component: CNavGroup,
-    name: "Candidates",
-    to: "/candidates",
-    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
-    items: [
       {
         component: CNavItem,
-        name: "Candidates List",
-        to: "/candidates",
+        name: "QB Answers",
+        to: "/dashboard/qbanswers",
       },
     ],
   },
   {
     component: CNavGroup,
-    name: "Stolen Cows",
-    to: "/stolencows",
-    icon: <CIcon icon={cilGraph} customClassName="nav-icon" />,
+    name: "Quize Results",
+    to: "/dashboard/quizes",
+    icon: <CIcon icon={cilNewspaper} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
-        name: "Cow Report",
-        to: "/stolencows",
+        name: "All Results",
+        to: "/dashboard/quizeresults",
       },
     ],
   },
