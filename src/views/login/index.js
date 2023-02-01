@@ -70,7 +70,7 @@ function Login() {
         </Link>
 
         <div className="form-container">
-          <h2>Welcome to Afriseller</h2>
+          <h2>Welcome to KITMESSAGE</h2>
           <p>Login to continue</p>
           <form method="post" onSubmit={(e) => handleSubmit(e)}>
             <div className="form-group">

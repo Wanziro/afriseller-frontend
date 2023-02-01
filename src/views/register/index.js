@@ -50,7 +50,7 @@ function Register() {
         .then((res) => {
           setIsSubmitting(false);
           const { userId, email, role, phone, hasACompany, names, token } =
-            res.data;
+            res.data.user;
           dispatch(setUserId(userId));
           dispatch(setUserEmail(email));
           dispatch(setUserRole(role));
@@ -84,7 +84,7 @@ function Register() {
                   />
                 </div>
               </Link>
-              <h1 className="text-white">Afriseller</h1>
+              <h1 className="text-white">KITMESSAGE</h1>
               <p className="text-white text-center">
                 Create a free user account to get started with our services
               </p>

@@ -14,7 +14,7 @@ function Header() {
         <div className="header-contents">
           <div className="logo-container" onClick={() => navigate("/")}>
             <img src={require("../../assets/logo.png")} />
-            <h1>Afriseller</h1>
+            <h1>KITMESSAGE</h1>
           </div>
           <div className="header-menu">
             <ul>

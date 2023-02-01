@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../header";
 import Banner from "./banner";
 import "../../scss/company.scss";
@@ -8,6 +8,7 @@ import Contents from "./contents";
 import RightSide from "./right-side";
 
 function Company() {
+  const [activeTab, setActiveTab] = useState("timeLine");
   return (
     <div className="cmpMainContainer">
       <Header />
