@@ -1,17 +1,39 @@
 import { Button, Grid, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
-const initialState = {
-  membershipPlanId: "",
-  cmpFullName: "",
-  cmpShortName: "",
-  cmpTinNumber: "",
-  cmpPhone: "",
-  cmpEmail: "",
-  cmpType: "",
-  cmpBiograph: "",
-};
+import { toastMessage } from "src/helpers";
 function CompanyInfo({ changeHandler, state, setActiveStep }) {
+  const handleNext = () => {
+    if (state.cmpFullName.trim() === "") {
+      toastMessage("error", "Company full name is required");
+      return false;
+    }
+    if (state.cmpShortName.trim() === "") {
+      toastMessage("error", "Company short name is required");
+      return false;
+    }
+    if (state.cmpTinNumber.trim() === "") {
+      toastMessage("error", "Company TIN number is required");
+      return false;
+    }
+    if (state.cmpPhone.trim() === "") {
+      toastMessage("error", "Company Phone number is required");
+      return false;
+    }
+    if (state.cmpEmail.trim() === "") {
+      toastMessage("error", "Company Email is required");
+      return false;
+    }
+    if (state.cmpType.trim() === "") {
+      toastMessage("error", "Company type is required");
+      return false;
+    }
+    if (state.cmpBiograph.trim() === "") {
+      toastMessage("error", "Company biograph is required");
+      return false;
+    }
+    setActiveStep(2);
+  };
   return (
     <div>
       <Grid container spacing={2}>
@@ -130,7 +152,7 @@ function CompanyInfo({ changeHandler, state, setActiveStep }) {
           //   disabled={isError()}
           color="primary"
           //   onClick={!isError() ? handleNext : () => null}
-          onClick={() => setActiveStep(2)}
+          onClick={() => handleNext()}
         >
           Next
         </Button>

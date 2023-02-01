@@ -6,8 +6,13 @@ import RowsPlaceHolder from "src/components/placeholders/rows";
 import { BACKEND_URL } from "src/constants/app";
 import { currencyFormatter, errorHandler, toastMessage } from "src/helpers";
 
-function SubScription({ setActiveStep, selectedPlanId, setSelectedPlanId }) {
-  const [plans, setPlans] = useState([]);
+function SubScription({
+  setActiveStep,
+  selectedPlanId,
+  setSelectedPlanId,
+  plans,
+  setPlans,
+}) {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     fetchPlans();
@@ -18,15 +23,19 @@ function SubScription({ setActiveStep, selectedPlanId, setSelectedPlanId }) {
     axios
       .get(BACKEND_URL + "/plans")
       .then((res) => {
-        setIsLoading(false);
-        setPlans(res.data.plans);
-        if (selectedPlanId === "" && res.data.plans.length > 0) {
-          setSelectedPlanId(res.data.plans[0].id);
-        }
+        setTimeout(() => {
+          setIsLoading(false);
+          setPlans(res.data.plans);
+          if (selectedPlanId === "" && res.data.plans.length > 0) {
+            setSelectedPlanId(res.data.plans[0].id);
+          }
+        }, 1000);
       })
       .catch((error) => {
-        setIsLoading(false);
-        errorHandler(error);
+        setTimeout(() => {
+          setIsLoading(false);
+          errorHandler(error);
+        }, 1000);
       });
   };
   return (

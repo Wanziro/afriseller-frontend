@@ -52,6 +52,24 @@
           }
         }
       }
+      .companyConfirmation {
+        ul {
+          margin: 0;
+          padding: 0;
+          li {
+            list-style: none;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid $BORDER_COLOR;
+            @include flexSpace;
+            align-items: flex-start;
+            span {
+              &:first-child {
+                font-weight: 700;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -6,6 +6,12 @@ import StepLabel from "@mui/material/StepLabel";
 import SubScription from "./subscription";
 import CompanyInfo from "./company-info";
 import Confrimation from "./confirmation";
+import axios from "axios";
+import { BACKEND_URL } from "src/constants/app";
+import { useDispatch, useSelector } from "react-redux";
+import { errorHandler, toastMessage } from "src/helpers";
+import { useNavigate } from "react-router-dom";
+import { setUserHasACompany } from "src/actions/user";
 
 const initialState = {
   membershipPlanId: "",
@@ -18,12 +24,36 @@ const initialState = {
   cmpBiograph: "",
 };
 function RegisterCompany() {
+  const navigate = useNavigate();
+  const disaptch = useDispatch();
+  const { token } = useSelector((state) => state.user);
+  const [plans, setPlans] = useState([]);
   const [activeStep, setActiveStep] = useState(0);
   const [selectedPlanId, setSelectedPlanId] = useState("");
   const [state, setState] = useState(initialState);
   const labels = ["Choose Plan", "Company info", "Confirmation"];
+  const [isSubmittingCompany, setIsSubmittingCompany] = useState(false);
   const changeHandler = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = () => {
+    setIsSubmittingCompany(true);
+    axios
+      .post(BACKEND_URL + "/companies/", { ...state, token })
+      .then((res) => {
+        setTimeout(() => {
+          setIsSubmittingCompany(false);
+          disaptch(setUserHasACompany(true));
+          toastMessage("success", res.data.msg);
+          navigate("/dashboard");
+        }, 1000);
+      })
+      .catch((error) => {
+        setTimeout(() => {
+          setIsSubmittingCompany(false);
+          errorHandler(error);
+        }, 1000);
+      });
   };
   const handleSteps = (step) => {
     switch (step) {
@@ -33,6 +63,8 @@ function RegisterCompany() {
             setActiveStep={setActiveStep}
             selectedPlanId={selectedPlanId}
             setSelectedPlanId={setSelectedPlanId}
+            plans={plans}
+            setPlans={setPlans}
           />
         );
       case 1:
@@ -44,7 +76,16 @@ function RegisterCompany() {
           />
         );
       case 2:
-        return <Confrimation setActiveStep={setActiveStep} />;
+        return (
+          <Confrimation
+            isSubmittingCompany={isSubmittingCompany}
+            setActiveStep={setActiveStep}
+            state={state}
+            selectedPlanId={selectedPlanId}
+            plans={plans}
+            handleSubmit={handleSubmit}
+          />
+        );
       default:
         <div>Unknown step</div>;
     }
