@@ -43,7 +43,12 @@ const _nav = [
       },
       {
         component: CNavItem,
-        name: "Question Banks(QB)",
+        name: "Add New Quize",
+        to: "/dashboard/addquize",
+      },
+      {
+        component: CNavItem,
+        name: "Question Banks (QB)",
         to: "/dashboard/questionbanks",
       },
       {
