@@ -17,6 +17,7 @@ import { errorHandler, toastMessage } from "src/helpers";
 import RowsPlaceHolder from "src/components/placeholders/rows";
 import CIcon from "@coreui/icons-react";
 import { cilPen, cilTrash } from "@coreui/icons";
+import Confirmation from "src/components/confirmation";
 
 const initialState = {
   quizId: "",
@@ -30,6 +31,14 @@ function QuestionOptions({ showModal, setShowModal, question, quizes }) {
   const [submitting, setSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [options, setOptions] = useState([]);
+  const [editItem, setEditItem] = useState({});
+  const [editDescription, setEditDescription] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+
+  const [deleteItem, setDeleteItem] = useState({});
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
@@ -57,9 +66,60 @@ function QuestionOptions({ showModal, setShowModal, question, quizes }) {
       });
   };
 
+  const handleDelete = () => {
+    setIsDeleting(true);
+    Axios.delete(
+      BACKEND_URL + "/qboptions/" + deleteItem.optId + "?token=" + token
+    )
+      .then((res) => {
+        setTimeout(() => {
+          toastMessage("success", res.data.msg);
+          setIsDeleting(false);
+          setOptions(options.filter((item) => item.optId !== deleteItem.optId));
+          setDeleteItem({});
+        }, 1000);
+      })
+
+      .catch((error) => {
+        setTimeout(() => {
+          setIsDeleting(false);
+          errorHandler(error);
+        }, 1000);
+      });
+  };
+
+  const handleSave = () => {
+    if (editDescription.trim() === "") {
+      return toastMessage("error", "Option can not be empty");
+    }
+    setIsEditing(true);
+    Axios.put(BACKEND_URL + "/qboptions/", {
+      ...editItem,
+      description: editDescription,
+      token,
+    })
+      .then((res) => {
+        setTimeout(() => {
+          toastMessage("success", res.data.msg);
+          setIsEditing(false);
+          setEditItem({});
+          fetchData();
+        }, 1000);
+      })
+
+      .catch((error) => {
+        setTimeout(() => {
+          setIsEditing(false);
+          errorHandler(error);
+        }, 1000);
+      });
+  };
+
   useEffect(() => {
     if (showModal) {
       fetchData();
+      setEditItem({});
+      setDeleteItem({});
     }
   }, [showModal]);
 
@@ -119,18 +179,72 @@ function QuestionOptions({ showModal, setShowModal, question, quizes }) {
                         <tbody>
                           {options.map((item, i) => (
                             <tr>
-                              <td>{item.description}</td>
+                              <td>
+                                {editItem?.optId === item.optId ? (
+                                  <textarea
+                                    className="form-control"
+                                    value={editDescription}
+                                    placeholder="Edit question option"
+                                    onChange={(e) =>
+                                      setEditDescription(e.target.value)
+                                    }
+                                  />
+                                ) : (
+                                  item.description
+                                )}
+                              </td>
                               <td>
                                 <input type="checkbox" />
                               </td>
                               <td>
-                                <span className="text-primary">
-                                  <CIcon icon={cilPen} />
-                                </span>
-                                &nbsp;
-                                <span className="text-danger">
-                                  <CIcon icon={cilTrash} />
-                                </span>
+                                {editItem?.optId === item.optId ||
+                                deleteItem?.optId === item.optId ? (
+                                  isEditing || isDeleting ? (
+                                    <CSpinner size="sm" />
+                                  ) : (
+                                    <>
+                                      <span
+                                        className="text-primary"
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() => handleSave()}
+                                      >
+                                        Save
+                                      </span>
+                                      &nbsp;|&nbsp;
+                                      <span
+                                        className="text-danger"
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() => setEditItem({})}
+                                      >
+                                        cancel
+                                      </span>
+                                    </>
+                                  )
+                                ) : (
+                                  <>
+                                    <span
+                                      className="text-primary"
+                                      style={{ cursor: "pointer" }}
+                                      onClick={() => {
+                                        setEditItem(item);
+                                        setEditDescription(item.description);
+                                      }}
+                                    >
+                                      <CIcon icon={cilPen} />
+                                    </span>
+                                    &nbsp;
+                                    <span
+                                      className="text-danger"
+                                      style={{ cursor: "pointer" }}
+                                      onClick={() => {
+                                        setDeleteItem(item);
+                                        setShowConfirm(true);
+                                      }}
+                                    >
+                                      <CIcon icon={cilTrash} />
+                                    </span>
+                                  </>
+                                )}
                               </td>
                             </tr>
                           ))}
@@ -165,6 +279,12 @@ function QuestionOptions({ showModal, setShowModal, question, quizes }) {
           </form>
         </CModalBody>
       </CModal>
+      <Confirmation
+        showAlert={showConfirm}
+        setShowAlert={setShowConfirm}
+        callback={handleDelete}
+        title="Do you want to delete this option?"
+      />
     </>
   );
 }
