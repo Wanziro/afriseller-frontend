@@ -51,11 +51,6 @@ const _nav = [
         name: "Question Banks (QB)",
         to: "/dashboard/questionbanks",
       },
-      {
-        component: CNavItem,
-        name: "QB Answers",
-        to: "/dashboard/qbanswers",
-      },
     ],
   },
   {
