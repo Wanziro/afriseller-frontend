@@ -19,12 +19,14 @@ import { errorHandler, toastMessage } from "src/helpers";
 import Edit from "./edit";
 import CirclePlaceHolder from "src/components/placeholders/circle";
 import axios from "axios";
+import QuestionOptions from "./options";
 
 const initialState = {
   companyId: "",
   quizId: "",
   qstTitle: "",
   qstMarks: "",
+  qstType: "",
 };
 const QuestionBanks = () => {
   const dispatch = useDispatch();
@@ -37,6 +39,7 @@ const QuestionBanks = () => {
   const [questionBanks, setQuestionBanks] = useState([]);
   const [editItem, setEditItem] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
   const [state, setState] = useState(initialState);
   const changeHandler = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -129,6 +132,7 @@ const QuestionBanks = () => {
                       <tr>
                         <th>#</th>
                         <th>Title</th>
+                        <th>Type</th>
                         <th>Marks</th>
                         <th>Action</th>
                       </tr>
@@ -138,21 +142,33 @@ const QuestionBanks = () => {
                         <tr key={index}>
                           <td>{index + 1}</td>
                           <td>{item.qstTitle}</td>
+                          <td>{item.qstType}</td>
                           <td>{item.qstMarks}</td>
                           <td>
-                            <button
-                              className="btn btn-primary"
+                            <span
+                              className="text-primary"
                               onClick={() => {
                                 setEditItem(item);
                                 setShowEditModal(true);
                               }}
                             >
                               <CIcon icon={cilPen} />
-                            </button>
-                            &nbsp;
-                            <button className="btn btn-danger">
+                            </span>
+                            &nbsp;|&nbsp;
+                            <span
+                              className="text-info"
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                setEditItem(item);
+                                setShowOptions(true);
+                              }}
+                            >
+                              Options
+                            </span>
+                            &nbsp;|&nbsp;
+                            <span className="text-danger">
                               <CIcon icon={cilTrash} />
-                            </button>
+                            </span>
                           </td>
                         </tr>
                       ))}
@@ -218,6 +234,32 @@ const QuestionBanks = () => {
                       placeholder="Question Marks"
                     />
                   </div>
+                  <div className="mb-3">
+                    <label>
+                      <b>Question Type</b>
+                    </label>{" "}
+                    <br />
+                    <input
+                      type="radio"
+                      name="type"
+                      disabled={submitting}
+                      checked={state.qstType === "radio"}
+                      onClick={() => setState({ ...state, qstType: "radio" })}
+                      required
+                    />{" "}
+                    Radio Button &nbsp;&nbsp;
+                    <input
+                      type="radio"
+                      name="type"
+                      disabled={submitting}
+                      checked={state.qstType === "checkbox"}
+                      onClick={() =>
+                        setState({ ...state, qstType: "checkbox" })
+                      }
+                      required
+                    />{" "}
+                    Check Box
+                  </div>
                   <div className="text-end">
                     <button
                       disabled={submitting}
@@ -238,6 +280,13 @@ const QuestionBanks = () => {
         setShowModal={setShowEditModal}
         editItem={editItem}
         fetchData={fetchData}
+        quizes={quizes}
+      />
+      <QuestionOptions
+        showModal={showOptions}
+        setShowModal={setShowOptions}
+        question={editItem}
+        quizes={quizes}
       />
     </>
   );

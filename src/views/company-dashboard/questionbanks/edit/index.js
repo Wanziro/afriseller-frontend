@@ -14,25 +14,21 @@ import { BACKEND_URL } from "src/constants/app";
 import { errorHandler, toastMessage } from "src/helpers";
 
 const initialState = {
-  qId: "",
+  qstId: "",
   companyId: "",
-  qTitle: "",
-  qFromDate: "",
-  qToDate: " ",
-  qFromTime: "",
-  qToTime: "",
-  qTotalMarks: "",
-  qIsActive: "",
-  qUserLimit: "",
+  quizId: "",
+  qstTitle: "",
+  qstMarks: "",
+  qstType: "",
 };
-function Edit({ showModal, setShowModal, editItem, fetchData }) {
+function Edit({ showModal, setShowModal, editItem, fetchData, quizes }) {
   const { token } = useSelector((state) => state.user);
   const [state, setState] = useState(initialState);
   const [submitting, setSubmitting] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
-    Axios.put(BACKEND_URL + "/quizes/", { ...state, token })
+    Axios.put(BACKEND_URL + "/questionbanks/", { ...state, token })
       .then((res) => {
         setTimeout(() => {
           toastMessage("success", res.data.msg);
@@ -70,111 +66,73 @@ function Edit({ showModal, setShowModal, editItem, fetchData }) {
           </CModalHeader>
           <CModalBody>
             <div className="mb-3">
+              <label>Quiz</label>
+              <select
+                disabled={submitting}
+                className="form-select"
+                type="text"
+                name="quizId"
+                value={state.quizId}
+                onChange={changeHandler}
+                required
+              >
+                <option value="">Choose Quiz</option>
+                {quizes.map((item, index) => (
+                  <option key={index} value={item.qId}>
+                    {item.qTitle}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-3">
               <label>Title</label>
               <input
                 disabled={submitting}
                 className="form-control"
                 type="text"
-                name="qTitle"
-                value={state.qTitle}
+                name="qstTitle"
+                value={state.qstTitle}
                 onChange={changeHandler}
                 required
-                placeholder="Quiz title"
+                placeholder="Question title"
               />
             </div>
-
             <div className="mb-3">
-              <label>From Date</label>
-              <input
-                disabled={submitting}
-                className="form-control"
-                type="date"
-                name="qFromDate"
-                value={state.qFromDate}
-                onChange={changeHandler}
-                required
-              />
-            </div>
-
-            <div className="mb-3">
-              <label>To Date (Deadline For doing this quiz)</label>
-              <input
-                disabled={submitting}
-                className="form-control"
-                type="date"
-                name="qToDate"
-                value={state.qToDate}
-                onChange={changeHandler}
-                required
-              />
-            </div>
-
-            <div className="mb-3">
-              <label>Start Time</label>
-              <input
-                disabled={submitting}
-                className="form-control"
-                type="time"
-                name="qFromTime"
-                value={state.qFromTime}
-                onChange={changeHandler}
-                required
-              />
-            </div>
-
-            <div className="mb-3">
-              <label>End Time</label>
-              <input
-                disabled={submitting}
-                className="form-control"
-                type="time"
-                name="qToTime"
-                value={state.qToTime}
-                onChange={changeHandler}
-                required
-              />
-            </div>
-
-            <div className="mb-3">
-              <label>Total Marks</label>
+              <label>Marks</label>
               <input
                 disabled={submitting}
                 className="form-control"
                 type="number"
-                name="qTotalMarks"
-                value={state.qTotalMarks}
+                name="qstMarks"
+                value={state.qstMarks}
                 onChange={changeHandler}
-                placeholder="Enter total Marks"
                 required
+                placeholder="Question Marks"
               />
             </div>
-
             <div className="mb-3">
-              <label>Users Limit</label>
+              <label>
+                <b>Question Type</b>
+              </label>{" "}
+              <br />
               <input
+                type="radio"
+                name="type"
                 disabled={submitting}
-                className="form-control"
-                type="number"
-                name="qUserLimit"
-                value={state.qUserLimit}
-                onChange={changeHandler}
-                placeholder="Enter maximum number of users to attempt this quiz"
+                checked={state.qstType === "radio"}
+                onClick={() => setState({ ...state, qstType: "radio" })}
                 required
-              />
-            </div>
-            <div className="mb-3">
-              <label>Status</label>
-              <select
+              />{" "}
+              Radio Button &nbsp;&nbsp;
+              <input
+                type="radio"
+                name="type"
                 disabled={submitting}
-                className="form-select"
-                name="qIsActive"
-                value={state.qIsActive}
-                onChange={changeHandler}
+                checked={state.qstType === "checkbox"}
+                onClick={() => setState({ ...state, qstType: "checkbox" })}
                 required
-              >
-                <option value={false}>Disactivate</option>
-                <option value={true}>Activate</option>
-              </select>
+              />{" "}
+              Check Box
             </div>
           </CModalBody>
           <CModalFooter>

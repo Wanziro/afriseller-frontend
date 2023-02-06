@@ -1,0 +1,172 @@
+import {
+  CButton,
+  CCol,
+  CModal,
+  CModalBody,
+  CModalFooter,
+  CModalHeader,
+  CModalTitle,
+  CRow,
+  CSpinner,
+} from "@coreui/react";
+import React, { useEffect, useState } from "react";
+import Axios from "axios";
+import { useSelector } from "react-redux";
+import { BACKEND_URL } from "src/constants/app";
+import { errorHandler, toastMessage } from "src/helpers";
+import RowsPlaceHolder from "src/components/placeholders/rows";
+import CIcon from "@coreui/icons-react";
+import { cilPen, cilTrash } from "@coreui/icons";
+
+const initialState = {
+  quizId: "",
+  questionId: "",
+  description: "",
+  companyId: "",
+};
+function QuestionOptions({ showModal, setShowModal, question, quizes }) {
+  const { token } = useSelector((state) => state.user);
+  const [state, setState] = useState(initialState);
+  const [submitting, setSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [options, setOptions] = useState([]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    Axios.post(BACKEND_URL + "/qboptions/", {
+      ...state,
+      questionId: question.qstId,
+      quizId: question.quizId,
+      companyId: question.companyId,
+      token,
+    })
+      .then((res) => {
+        setTimeout(() => {
+          toastMessage("success", res.data.msg);
+          setSubmitting(false);
+          setState(initialState);
+          fetchData();
+        }, 1000);
+      })
+
+      .catch((error) => {
+        setTimeout(() => {
+          setSubmitting(false);
+          errorHandler(error);
+        }, 1000);
+      });
+  };
+
+  useEffect(() => {
+    if (showModal) {
+      fetchData();
+    }
+  }, [showModal]);
+
+  const changeHandler = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
+
+  const fetchData = () => {
+    setIsLoading(true);
+    Axios.get(BACKEND_URL + "/qboptions/" + question.qstId + "?token=" + token)
+      .then((res) => {
+        setTimeout(() => {
+          setIsLoading(false);
+          setOptions(res.data.qbOptions);
+        }, 1000);
+      })
+      .catch((error) => {
+        setTimeout(() => {
+          setIsLoading(false);
+          errorHandler(error);
+        }, 1000);
+      });
+  };
+
+  return (
+    <>
+      <CModal
+        backdrop="static"
+        visible={showModal}
+        onClose={() => setShowModal(false)}
+        size="xl"
+      >
+        <CModalHeader>
+          <CModalTitle>
+            QUIZ: {quizes.find((item) => item?.qId == question?.quizId)?.qTitle}{" "}
+            | {question?.qstTitle} / {question?.qstMarks} Marks
+          </CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          <form onSubmit={handleSubmit}>
+            <CRow>
+              <CCol md={8}>
+                <h3>Question Options</h3>
+                {isLoading ? (
+                  <RowsPlaceHolder />
+                ) : (
+                  <>
+                    <div className="table-responsive">
+                      <table className="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>Option</th>
+                            <th>Correct</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {options.map((item, i) => (
+                            <tr>
+                              <td>{item.description}</td>
+                              <td>
+                                <input type="checkbox" />
+                              </td>
+                              <td>
+                                <span className="text-primary">
+                                  <CIcon icon={cilPen} />
+                                </span>
+                                &nbsp;
+                                <span className="text-danger">
+                                  <CIcon icon={cilTrash} />
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </>
+                )}
+              </CCol>
+              <CCol md={4}>
+                <div className="shadow p-3">
+                  <h3>Add New Option</h3>
+                  <div className="form-group">
+                    <textarea
+                      className="form-control"
+                      placeholder="Enter option description"
+                      name="description"
+                      onChange={changeHandler}
+                      value={state.description}
+                      required
+                      disabled={submitting}
+                    ></textarea>
+                  </div>
+                  <div className="form-group mt-3">
+                    <button className="btn btn-primary" type="submit">
+                      {submitting && <CSpinner size="sm" />} Save option
+                    </button>
+                  </div>
+                </div>
+              </CCol>
+            </CRow>
+          </form>
+        </CModalBody>
+      </CModal>
+    </>
+  );
+}
+
+export default QuestionOptions;
