@@ -39,6 +39,8 @@ function QuestionOptions({ showModal, setShowModal, question, quizes }) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  const [isCorrecting, setIsCorrecting] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
@@ -144,6 +146,40 @@ function QuestionOptions({ showModal, setShowModal, question, quizes }) {
       });
   };
 
+  const fetchData2 = () => {
+    Axios.get(BACKEND_URL + "/qboptions/" + question.qstId + "?token=" + token)
+      .then((res) => {
+        setOptions(res.data.qbOptions);
+      })
+      .catch((error) => {
+        errorHandler(error);
+      });
+  };
+
+  const handleCorrect = (elm, item) => {
+    console.log(elm.target.checked);
+    setIsCorrecting(true);
+    Axios.put(BACKEND_URL + "/qboptions/correct/", {
+      ...item,
+      isCorrect: elm.target.checked,
+      token,
+    })
+      .then((res) => {
+        setTimeout(() => {
+          toastMessage("success", res.data.msg);
+          setIsCorrecting(false);
+          fetchData2();
+        }, 1000);
+      })
+
+      .catch((error) => {
+        setTimeout(() => {
+          setIsCorrecting(false);
+          errorHandler(error);
+        }, 1000);
+      });
+  };
+
   return (
     <>
       <CModal
@@ -194,12 +230,20 @@ function QuestionOptions({ showModal, setShowModal, question, quizes }) {
                                 )}
                               </td>
                               <td>
-                                <input type="checkbox" />
+                                <input
+                                  type="checkbox"
+                                  checked={item.isCorrect}
+                                  onClick={(e) => handleCorrect(e, item)}
+                                  disabled={isCorrecting}
+                                />
                               </td>
                               <td>
                                 {editItem?.optId === item.optId ||
-                                deleteItem?.optId === item.optId ? (
-                                  isEditing || isDeleting ? (
+                                (isDeleting &&
+                                  deleteItem?.optId === item.optId) ? (
+                                  isEditing ||
+                                  (isDeleting &&
+                                    deleteItem?.optId === item.optId) ? (
                                     <CSpinner size="sm" />
                                   ) : (
                                     <>
