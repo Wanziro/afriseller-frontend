@@ -16,7 +16,7 @@ import Axios from "axios";
 import CIcon from "@coreui/icons-react";
 import { cilCheck, cilDelete, cilPen, cilTrash } from "@coreui/icons";
 import RowsPlaceHolder from "src/components/placeholders/rows";
-import { BACKEND_URL } from "src/constants/app";
+import { BACKEND_URL, FILE_URL } from "src/constants/app";
 import { errorHandler, toastMessage } from "src/helpers";
 import Edit from "./edit";
 const initialState = { companyId: "", title: "", description: "", image: "" };
@@ -101,16 +101,21 @@ const CompanyServices = () => {
                       {quizes.map((item, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td></td>
+                          <td>
+                            <img
+                              src={FILE_URL + item.image}
+                              style={{ width: 100 }}
+                            />
+                          </td>
                           <td>{item.title}</td>
                           <td>{item.isActive ? "Active" : "Not Active"}</td>
                           <td>
                             <button
                               className="btn btn-primary"
-                              // onClick={() => {
-                              //   setEditItem(item);
-                              //   setShowEditModal(true);
-                              // }}
+                              onClick={() => {
+                                setEditItem(item);
+                                setShowEditModal(true);
+                              }}
                             >
                               <CIcon icon={cilPen} />
                             </button>

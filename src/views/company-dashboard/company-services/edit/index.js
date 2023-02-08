@@ -14,16 +14,9 @@ import { BACKEND_URL } from "src/constants/app";
 import { errorHandler, toastMessage } from "src/helpers";
 
 const initialState = {
-  qId: "",
-  companyId: "",
-  qTitle: "",
-  qFromDate: "",
-  qToDate: " ",
-  qFromTime: "",
-  qToTime: "",
-  qTotalMarks: "",
-  qIsActive: "",
-  qUserLimit: "",
+  title: "",
+  description: "",
+  isActive: true,
 };
 function Edit({ showModal, setShowModal, editItem, fetchData }) {
   const { token } = useSelector((state) => state.user);
@@ -32,7 +25,7 @@ function Edit({ showModal, setShowModal, editItem, fetchData }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
-    Axios.put(BACKEND_URL + "/quizes/", { ...state, token })
+    Axios.put(BACKEND_URL + "/companyservices/", { ...state, token })
       .then((res) => {
         setTimeout(() => {
           toastMessage("success", res.data.msg);
@@ -75,100 +68,31 @@ function Edit({ showModal, setShowModal, editItem, fetchData }) {
                 disabled={submitting}
                 className="form-control"
                 type="text"
-                name="qTitle"
-                value={state.qTitle}
+                name="title"
+                value={state.title}
                 onChange={changeHandler}
                 required
-                placeholder="Quiz title"
+                placeholder="title"
               />
             </div>
-
             <div className="mb-3">
-              <label>From Date</label>
-              <input
+              <label>Description</label>
+              <textarea
                 disabled={submitting}
-                className="form-control"
-                type="date"
-                name="qFromDate"
-                value={state.qFromDate}
-                onChange={changeHandler}
                 required
-              />
-            </div>
-
-            <div className="mb-3">
-              <label>To Date (Deadline For doing this quiz)</label>
-              <input
-                disabled={submitting}
-                className="form-control"
-                type="date"
-                name="qToDate"
-                value={state.qToDate}
+                name="description"
+                value={state.description}
                 onChange={changeHandler}
-                required
-              />
-            </div>
-
-            <div className="mb-3">
-              <label>Start Time</label>
-              <input
-                disabled={submitting}
                 className="form-control"
-                type="time"
-                name="qFromTime"
-                value={state.qFromTime}
-                onChange={changeHandler}
-                required
-              />
-            </div>
-
-            <div className="mb-3">
-              <label>End Time</label>
-              <input
-                disabled={submitting}
-                className="form-control"
-                type="time"
-                name="qToTime"
-                value={state.qToTime}
-                onChange={changeHandler}
-                required
-              />
-            </div>
-
-            <div className="mb-3">
-              <label>Total Marks</label>
-              <input
-                disabled={submitting}
-                className="form-control"
-                type="number"
-                name="qTotalMarks"
-                value={state.qTotalMarks}
-                onChange={changeHandler}
-                placeholder="Enter total Marks"
-                required
-              />
-            </div>
-
-            <div className="mb-3">
-              <label>Users Limit</label>
-              <input
-                disabled={submitting}
-                className="form-control"
-                type="number"
-                name="qUserLimit"
-                value={state.qUserLimit}
-                onChange={changeHandler}
-                placeholder="Enter maximum number of users to attempt this quiz"
-                required
-              />
+              ></textarea>
             </div>
             <div className="mb-3">
               <label>Status</label>
               <select
                 disabled={submitting}
                 className="form-select"
-                name="qIsActive"
-                value={state.qIsActive}
+                name="isActive"
+                value={state.isActive}
                 onChange={changeHandler}
                 required
               >
