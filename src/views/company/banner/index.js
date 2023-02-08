@@ -8,7 +8,7 @@ import CIcon from "@coreui/icons-react";
 import { CContainer } from "@coreui/react";
 import React from "react";
 
-function Banner() {
+function Banner({ company }) {
   return (
     <div
       className="bannerContainer"
@@ -22,8 +22,8 @@ function Banner() {
                 <img src={require("../../../assets/bg1.jpg")} alt="" />
               </div>
               <div className="cmp-profile">
-                <h1>Company Title</h1>
-                <span>Lorem ipsum dolor sit amet consectetur</span>
+                <h1>{company.cmpFullName}</h1>
+                <span>{company.cmpBiograph}</span>
                 <div className="social-medias-container">
                   <div className="circle">
                     <CIcon icon={cibFacebookF} />

@@ -53,7 +53,7 @@ const App = () => {
           />
           <Route
             exact
-            path="/company"
+            path="/company/:id"
             element={
               <Suspense fallback={loading}>
                 <Company />

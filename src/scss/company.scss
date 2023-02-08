@@ -113,4 +113,13 @@
   padding: 1.5rem;
   border-radius: 10px;
   margin-bottom: 1rem;
+  img {
+    border-radius: 10px;
+    width: 100%;
+  }
+  h3 {
+    margin: 0.5rem 0px;
+    color: $black;
+    text-transform: capitalize;
+  }
 }
