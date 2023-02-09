@@ -8,11 +8,13 @@
     "email": "ninga.fab@gmail.com"
   },
   "scripts": {
-    "build": "react-scripts build",
+    "build": "env-cmd -f ./.env.dev react-scripts build",
+    "build:production": "env-cmd -f ./.env.production react-scripts build",
     "eject": "react-scripts eject",
-    "lint": "eslint \"src/**/*.js\"",
-    "start": "react-scripts start",
-    "test": "react-scripts test"
+    "lint": "eslint \"src/**/*.js\"", 
+    "test": "react-scripts test",
+    "start": "env-cmd -f ./.env.dev react-scripts start",
+    "start:production": "env-cmd -f ./.env.production react-scripts start"
   },
   "dependencies": {
     "@coreui/chartjs": "^3.0.0",
