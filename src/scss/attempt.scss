@@ -6,4 +6,7 @@
   margin: auto;
   margin-top: 10%;
   padding: 3rem;
+  .btns-container {
+    @include flexSpace;
+  }
 }

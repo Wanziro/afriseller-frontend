@@ -63,7 +63,7 @@ const App = () => {
           />
           <Route
             exact
-            path="/attempt/:companyId/:QuizId"
+            path="/attempt/:companyId/:quizId"
             element={
               <Suspense fallback={loading}>
                 <ProtectedRoute>
