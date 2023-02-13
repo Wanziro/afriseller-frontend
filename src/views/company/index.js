@@ -74,7 +74,7 @@ function Company() {
               />
             </CCol>
             <CCol md={4}>
-              <RightSide />
+              <RightSide company={selectedCompany} />
             </CCol>
           </CRow>
         </CContainer>

@@ -1,12 +1,12 @@
 import React from "react";
+import ActiveQuizes from "./active-quizes";
+import PastQuizes from "./past-quizes";
 
-function RightSide() {
+function RightSide({ company }) {
   return (
     <>
-      <div className="companyContentsCard">Active Quizes</div>
-      <div className="companyContentsCard">
-        <p>Recent Quizes</p>
-      </div>
+      <ActiveQuizes company={company} />
+      <PastQuizes company={company} />
     </>
   );
 }
