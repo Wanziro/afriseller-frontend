@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Confirmation from "src/components/confirmation";
 import RowsPlaceHolder from "src/components/placeholders/rows";
 import { BACKEND_URL } from "src/constants/app";
@@ -10,6 +11,7 @@ function ActiveQuizes({ company }) {
   const [quizes, setQuizes] = useState([]);
   const [selectedQuiz, setSelectedQuiz] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
   const fetchQuizes = () => {
     if (company?.companyId) {
       setIsLoading(true);
@@ -33,7 +35,9 @@ function ActiveQuizes({ company }) {
     fetchQuizes();
   }, [company]);
 
-  const takeQuiz = () => {};
+  const takeQuiz = () => {
+    navigate("/attempt/" + company.companyId + "/" + selectedQuiz.qId);
+  };
 
   return (
     <div className="companyContentsCard">
@@ -84,6 +88,7 @@ function ActiveQuizes({ company }) {
         title="Do you want to take this quiz? Click on confirm to take the quiz immediately."
         setShowAlert={setShowAlert}
         showAlert={showAlert}
+        callback={takeQuiz}
       />
     </div>
   );

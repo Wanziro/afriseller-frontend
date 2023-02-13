@@ -11,6 +11,7 @@ import { fetchMyCompany } from "./actions/myCompany";
 const Home = lazy(() => import("./views/home"));
 const Company = lazy(() => import("./views/company"));
 const RegisterCompany = lazy(() => import("./views/register-company"));
+const Attempt = lazy(() => import("./views/attempt"));
 
 const loading = (
   <div className="pt-3 text-center">
@@ -60,38 +61,49 @@ const App = () => {
               </Suspense>
             }
           />
+          <Route
+            exact
+            path="/attempt/:companyId/:QuizId"
+            element={
+              <Suspense fallback={loading}>
+                <ProtectedRoute>
+                  <Attempt />
+                </ProtectedRoute>
+              </Suspense>
+            }
+          />
           <Route exact path="/logout" element={<Logout />} />
           <Route
             exact
             path="/login"
             element={
-              <UnProtectedRoute>
-                <Suspense fallback={loading}>
+              <Suspense fallback={loading}>
+                <UnProtectedRoute>
                   <Login />
-                </Suspense>
-              </UnProtectedRoute>
+                </UnProtectedRoute>
+              </Suspense>
             }
           />
           <Route
             exact
             path="/register"
             element={
-              <UnProtectedRoute>
-                <Suspense fallback={loading}>
+              <Suspense fallback={loading}>
+                <UnProtectedRoute>
                   <Register />
-                </Suspense>
-              </UnProtectedRoute>
+                </UnProtectedRoute>
+              </Suspense>
             }
           />
           <Route
             exact
             path="/registercompany"
             element={
-              <ProtectedRoute>
-                <Suspense fallback={loading}>
+              <Suspense fallback={loading}>
+                <ProtectedRoute>
                   <RegisterCompany />
-                </Suspense>
-              </ProtectedRoute>
+                </ProtectedRoute>
+              </Suspense>
             }
           />
           <Route
