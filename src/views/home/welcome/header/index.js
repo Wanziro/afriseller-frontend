@@ -16,9 +16,7 @@ function Header() {
           </div>
           <div className="header-menu">
             <ul>
-              <li>Home</li>
-              <li>Pricing</li>
-              <li>About</li>
+              <li onClick={() => navigate("/")}>Home</li>
               <li>Contact us</li>
               {token.trim() === "" ? (
                 <>
@@ -30,13 +28,20 @@ function Header() {
                   </li>
                 </>
               ) : hasACompany ? (
-                <li onClick={() => navigate("/dashboard")}>Dashboard</li>
+                <>
+                  <li onClick={() => navigate("/dashboard")}>Dashboard</li>
+                  <li onClick={() => navigate("/logout")}>Logout</li>
+                </>
               ) : (
-                <li>
-                  <button onClick={() => navigate("/registercompany")}>
-                    Register Company
-                  </button>
-                </li>
+                <>
+                  <li>
+                    <button onClick={() => navigate("/registercompany")}>
+                      Register Company
+                    </button>
+                  </li>
+                  <li onClick={() => navigate("/profile")}>My Profile</li>
+                  <li onClick={() => navigate("/logout")}>Logout</li>
+                </>
               )}
             </ul>
           </div>
