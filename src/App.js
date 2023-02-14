@@ -12,6 +12,7 @@ const Home = lazy(() => import("./views/home"));
 const Company = lazy(() => import("./views/company"));
 const RegisterCompany = lazy(() => import("./views/register-company"));
 const Attempt = lazy(() => import("./views/attempt"));
+const UserAccount = lazy(() => import("./views/user-account"));
 
 const loading = (
   <div className="pt-3 text-center">
@@ -68,6 +69,17 @@ const App = () => {
               <Suspense fallback={loading}>
                 <ProtectedRoute>
                   <Attempt />
+                </ProtectedRoute>
+              </Suspense>
+            }
+          />
+          <Route
+            exact
+            path="/profile"
+            element={
+              <Suspense fallback={loading}>
+                <ProtectedRoute>
+                  <UserAccount />
                 </ProtectedRoute>
               </Suspense>
             }

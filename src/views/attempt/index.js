@@ -34,7 +34,7 @@ function Attempt() {
       .then((res) => {
         setIsSubmitting(false);
         toastMessage("success", res.data.msg);
-        navigate("/");
+        navigate("/profile");
       })
       .catch((error) => {
         setIsSubmitting(false);

@@ -1,0 +1,70 @@
+@import "mixins";
+@import "colors";
+
+.userprofileMainContainer {
+  background-color: $BG_GRAY;
+  min-height: 100vh;
+  .banner {
+    height: 200px;
+    background-color: $DARK_GREEN;
+  }
+  .main-contents {
+    margin-top: -100px;
+    width: 100%;
+    bottom: 0;
+    .contents-container {
+      background-color: $white;
+      border-radius: 10px;
+      padding: 2rem;
+      position: relative;
+      .profile-section {
+        position: absolute;
+        top: -50px;
+        right: 0;
+        left: 0;
+        .no-image {
+          width: 150px;
+          height: 150px;
+          border-radius: 100%;
+          background-color: $DARK_GREEN;
+          margin: auto;
+          @include flexCenter;
+        }
+        img {
+          width: 150px;
+          height: 150px;
+          border-radius: 100%;
+          margin: auto;
+        }
+      }
+      .profile-contents {
+        margin-top: 100px;
+        @include flexCenter;
+        flex-direction: column;
+      }
+      .account-tabs {
+        margin: 0;
+        padding: 0;
+        @include flexSpace;
+        li {
+          list-style: none;
+          font-weight: 700;
+          width: 100%;
+          text-align: center;
+          border-bottom: 2px solid $BORDER_COLOR;
+          padding-bottom: 5px;
+          cursor: pointer;
+          &:hover {
+            border-bottom: 2px solid $DARK_GREEN;
+          }
+        }
+        li.active {
+          border-bottom: 2px solid $DARK_GREEN;
+        }
+      }
+      .tab-contents {
+        margin-top: 1rem;
+      }
+    }
+  }
+}
